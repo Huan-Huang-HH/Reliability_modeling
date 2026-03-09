@@ -60,8 +60,12 @@ def plot_weibull_custom(fit_model, delta_t, failures, censored, color, label):
     y_fit = weibull_line(t_range, alpha, beta)
     
     # Calculate confidence bounds
-    y_lower = weibull_line(t_range, alpha_lower, beta_lower)
-    y_upper = weibull_line(t_range, alpha_upper, beta_upper)
+    y_1 = weibull_line(t_range, alpha_lower, beta_lower)
+    y_2 = weibull_line(t_range, alpha_upper, beta_upper)
+    y_3 = weibull_line(t_range, alpha_lower, beta_upper)
+    y_4 = weibull_line(t_range, alpha_upper, beta_lower)
+    y_lower = np.minimum.reduce([y_1, y_2, y_3, y_4])
+    y_upper = np.maximum.reduce([y_1, y_2, y_3, y_4])
     
     # Plot confidence bounds as shaded region
     ax.fill_between(x, y_lower, y_upper, alpha=0.2, color=color)
